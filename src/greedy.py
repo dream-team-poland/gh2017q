@@ -5,7 +5,13 @@ def greedy(request_priority, cache_chooser, input):
     output = collections.defaultdict(set)
     space_left = collections.defaultdict(lambda: input.cache_size)
 
-    for request in sorted(input.requests, key=request_priority, reverse=True):
+    def sort_key(request):
+        return request_priority(
+            request=request,
+            video_size=input.video_sizes[request.video_id],
+        )
+
+    for request in sorted(input.requests, key=sort_key, reverse=True):
         endpoint = input.endpoints[request.endpoint_id]
         video_size = input.video_sizes[request.video_id]
         if any(
@@ -31,8 +37,16 @@ def greedy(request_priority, cache_chooser, input):
 
 # request priorities
 
-def priority_count(request):
+def priority_count(request, **_):
     return request.count
+
+
+def priority_video_small(video_size, **_):
+    return -video_size
+
+
+def priority_video_big(video_size, **_):
+    return video_size
 
 
 # cache choosers
