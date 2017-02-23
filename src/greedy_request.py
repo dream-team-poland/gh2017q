@@ -29,6 +29,7 @@ def greedy(request_priority, cache_chooser, input):
             continue
         chosen_cache_id = cache_chooser(
             available_cache_space_left=available_cache_space_left,
+            endpoint=endpoint,
         )
         output[chosen_cache_id].add(request.video_id)
         space_left[chosen_cache_id] -= video_size
@@ -56,3 +57,11 @@ def best_fit(available_cache_space_left, **_):
         available_cache_space_left.items(),
         key=lambda pair: pair[1]
     )[0]
+
+
+def min_latency(available_cache_space_left, endpoint, **_):
+    return min(
+        available_cache_space_left,
+        key=lambda cache_id: endpoint.cache_latencies[cache_id]
+    )
+
