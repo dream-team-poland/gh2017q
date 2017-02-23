@@ -42,9 +42,9 @@ def run_tests():
             )
             with open(output_file_path, 'w') as output_file:
                 write_output(output, output_file)
-            # file_score = count_score(input, output)
-            # print('Score for file: {}'.format(file_score))
-            # total_score += file_score
+            file_score = count_score(input, output)
+            print('Score for file: {}'.format(file_score))
+            total_score += file_score
         print('Total score: {}'.format(total_score))
 
 
