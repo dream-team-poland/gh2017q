@@ -3,7 +3,7 @@ import os
 import functools
 
 from root import PROJECT_DIR
-from src.greedy_request import greedy
+from src.greedy_request import greedy, priority_video_small, priority_video_big
 from src.common import write_output, read_input
 from src.greedy_request import priority_count, best_fit
 from src.score import count_score
@@ -19,13 +19,15 @@ TEST_FILE_PATHS = [os.path.join(TEST_DATA_PATH, filename) for filename in TEST_F
 #
 
 TEST_CASES = [
-    ('greedy_count_best_fit', functools.partial(greedy, priority_count, best_fit))
+    ('greedy_count_best_fit', functools.partial(greedy, priority_count, best_fit)),
+    ('greedy_video_small_best_fit', functools.partial(greedy, priority_video_small, best_fit)),
+    ('greedy_video_big_best_fit', functools.partial(greedy, priority_video_big, best_fit)),
 ]
 
 
 def run_tests():
     for folder_name, test_function in TEST_CASES:
-        os.makedirs(folder_name)
+        os.mkdir(folder_name)
         total_score = 0
         print('Running test: {}'.format(test_function))
         for test_file_path in TEST_FILE_PATHS:
@@ -34,8 +36,6 @@ def run_tests():
                 input = read_input(test_file)
             output = test_function(input)
             folder_path = os.path.join(TEST_RESULT_PATH, folder_name)
-            if not os.path.exists(folder_path):
-                os.makedirs(folder_path)
             output_file_path = os.path.join(
                 folder_path,
                 '{}_{}'.format(folder_name, os.path.basename(test_file_path))
