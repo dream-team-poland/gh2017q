@@ -1,8 +1,8 @@
 import collections
 
 
-def greedy(input, request_priority, cache_chooser):
-    output = collections.defaultdict(set)
+def greedy(request_priority, cache_chooser, input):
+    output = collections.defaultdict(list)
     space_left = collections.defaultdict(lambda: input.cache_size)
 
     for request in sorted(input.requests, key=request_priority, reverse=True):
