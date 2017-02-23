@@ -3,12 +3,13 @@ import os
 import functools
 
 from root import PROJECT_DIR
+from src.greedy_per_cache import greedy_per_cache
 from src.greedy_request import greedy, priority_video_small, priority_video_big, min_latency
 from src.common import write_output, read_input
 from src.greedy_request import priority_count, best_fit
 from src.score import count_score
 
-TEST_FILENAMES = ['kittens.in', 'me_at_the_zoo.in', 'trending_today.in', 'videos_worth_spreading.in']
+TEST_FILENAMES = ['me_at_the_zoo.in', 'trending_today.in', 'videos_worth_spreading.in', 'kittens.in']
 TEST_DATA_PATH = os.path.join(PROJECT_DIR, 'data')
 TEST_RESULT_PATH = os.path.join(PROJECT_DIR, 'results')
 TEST_FILE_PATHS = [os.path.join(TEST_DATA_PATH, filename) for filename in TEST_FILENAMES]
@@ -25,13 +26,14 @@ TEST_CASES = [
     ('greedy_count_min_latency', functools.partial(greedy, priority_count, min_latency)),
     ('greedy_video_small_min_latency', functools.partial(greedy, priority_video_small, min_latency)),
     ('greedy_video_big_min_latency', functools.partial(greedy, priority_video_big, min_latency)),
+    ('greedy_per_cache', greedy_per_cache)
 ]
 
 
 def run_tests():
     for folder_name, test_function in TEST_CASES:
         folder_path = os.path.join(TEST_RESULT_PATH, folder_name)
-        if not os.path.exists(folder_path)
+        if not os.path.exists(folder_path):
             os.mkdir(folder_path)
         total_score = 0
         print('Running test: {}'.format(test_function))
