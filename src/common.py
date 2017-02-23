@@ -72,6 +72,15 @@ def parse_endpoint(rows):
 
 # output: dict: cache_id -> list of video_ids
 
+def validate_output(input, output):
+    cache_size = input.cache_size
+    video_sizes = input.video_sizes
+    for cache_id, video_ids in output.items():
+        overall_size = sum([video_sizes[id_] for id_ in video_ids])
+        if overall_size > cache_size:
+            raise ValueError('Videos size exceeded for cache {}: {}'.format(cache_id, overall_size))
+
+
 def output_rows(output):
     yield [len(output)]
     for cache_id, video_ids in output.items():

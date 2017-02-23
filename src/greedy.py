@@ -1,5 +1,7 @@
 import collections
 
+from src.common import validate_output
+
 
 def greedy(input, request_priority, cache_chooser):
     output = collections.defaultdict(list)
@@ -17,6 +19,7 @@ def greedy(input, request_priority, cache_chooser):
         chosed_cache_id = cache_chooser(video_size, available_cache_space_left)
         output[chosed_cache_id].append(request.video_id)
 
+    validate_output(input, output)
     return output
 
 
