@@ -3,9 +3,9 @@ import os
 import functools
 
 from root import PROJECT_DIR
-from src.greedy import greedy
+from src.greedy_request import greedy
 from src.common import write_output, read_input
-from src.greedy import priority_count, best_fit
+from src.greedy_request import priority_count, best_fit
 from src.score import count_score
 
 TEST_FILENAMES = ['kittens.in', 'me_at_the_zoo.in', 'trending_today.in', 'videos_worth_spreading.in']
