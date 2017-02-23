@@ -16,14 +16,14 @@ def _sort_caches_by_requests(endpoints, requests):
 
 def request_score(cache_id, endpoints, request):
     endpoint = endpoints[request.endpoint_id]
-    return request.count * (endpoint.cache_latencies[cache_id] -  endpoint.data_center_latency)
+    return request.count * (endpoint.cache_latencies[cache_id] - endpoint.data_center_latency)
 
 
 def _get_videos_for_cache(cache_id, requests_for_cache, cache_size, endpoints, video_sizes):
     videos = []
     size_remaining = cache_size
-    score_fun = partial(request_score, cache_id=cache_id, endpoints=endpoints)
-    requests_for_cache.sort(key=score_fun, reversed=True)
+    score_fun = partial(request_score, cache_id, endpoints)
+    requests_for_cache.sort(key=score_fun, reverse=True)
     for request in requests_for_cache:
         size = video_sizes[request.video_id]
         if size <= size_remaining:
@@ -42,7 +42,7 @@ def greedy_per_cache(input):
             cache_id,
             cache_to_requests[cache_id],
             input.cache_size,
-            input.endpoint,
+            input.endpoints,
             input.video_sizes
         )
     return output
