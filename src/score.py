@@ -14,8 +14,11 @@ def _count_score(requests, endpoints, cache_descriptions):
     for request in requests:
         endpoint = endpoints[request.endpoint_id]
         cache_ids = _get_caches_with_video_id(cache_descriptions, request.video_id)
-        min_latency = min([endpoint.cache_latencies[cache_id] for cache_id in cache_ids])
-        latency_diff = endpoint.data_center_latency - min_latency
+        latencies = [endpoint.data_center_latency]
+        for cache_id in cache_ids:
+            if cache_id in endpoint.cache_latencies:
+                latencies.append(endpoint.cache_latencies[cache_id])
+        latency_diff = endpoint.data_center_latency - min(latencies)
         score += request.count * latency_diff
         total_requests += request.count
     return (score * 1000) // total_requests
