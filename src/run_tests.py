@@ -2,12 +2,12 @@ import os
 
 import functools
 
+from root import PROJECT_DIR
 from src.greedy import greedy
 from src.common import write_output, read_input
 from src.greedy import priority_count, best_fit
 from src.score import count_score
 
-PROJECT_DIR = os.path.join('..', os.path.dirname(__file__))
 TEST_FILENAMES = ['kittens.in', 'me_at_the_zoo.in', 'trending_today.in', 'videos_worth_spreading.in']
 TEST_DATA_PATH = os.path.join(PROJECT_DIR, 'data')
 TEST_RESULT_PATH = os.path.join(PROJECT_DIR, 'results')
@@ -25,6 +25,7 @@ TEST_CASES = [
 
 def run_tests():
     for folder_name, test_function in TEST_CASES:
+        os.makedirs(folder_name)
         total_score = 0
         print('Running test: {}'.format(test_function))
         for test_file_path in TEST_FILE_PATHS:
@@ -39,11 +40,11 @@ def run_tests():
                 folder_path,
                 '{}_{}'.format(folder_name, os.path.basename(test_file_path))
             )
-            with open(output_file_path) as output_file:
+            with open(output_file_path, 'w') as output_file:
                 write_output(output, output_file)
-            file_score = count_score(input, output)
-            print('Score for file: {}'.format(file_score))
-            total_score += file_score
+            # file_score = count_score(input, output)
+            # print('Score for file: {}'.format(file_score))
+            # total_score += file_score
         print('Total score: {}'.format(total_score))
 
 

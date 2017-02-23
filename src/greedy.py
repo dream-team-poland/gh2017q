@@ -2,7 +2,7 @@ import collections
 
 
 def greedy(request_priority, cache_chooser, input):
-    output = collections.defaultdict(list)
+    output = collections.defaultdict(set)
     space_left = collections.defaultdict(lambda: input.cache_size)
 
     for request in sorted(input.requests, key=request_priority, reverse=True):
@@ -26,6 +26,7 @@ def greedy(request_priority, cache_chooser, input):
         )
         output[chosen_cache_id].add(request.video_id)
         space_left[chosen_cache_id] -= video_size
+    return output
 
 
 # request priorities
