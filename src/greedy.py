@@ -19,6 +19,8 @@ def greedy(request_priority, cache_chooser, input):
             in endpoint.cache_latencies
             if space_left[cache_id] >= video_size
         }
+        if not available_cache_space_left:
+            continue
         chosen_cache_id = cache_chooser(
             available_cache_space_left=available_cache_space_left,
         )
