@@ -1,5 +1,5 @@
+from collections import defaultdict
 import os
-
 import functools
 
 from root import PROJECT_DIR
@@ -31,6 +31,8 @@ TEST_CASES = [
 
 
 def run_tests():
+    max_for_file = defaultdict(int)
+    output_for_max = {}
     for folder_name, test_function in TEST_CASES:
         folder_path = os.path.join(TEST_RESULT_PATH, folder_name)
         if not os.path.exists(folder_path):
@@ -49,9 +51,15 @@ def run_tests():
             with open(output_file_path, 'w') as output_file:
                 write_output(output, output_file)
             file_score = count_score(input, output)
+            if file_score > max_for_file[test_file_path]:
+                max_for_file[test_file_path] = file_score
+                output_for_max[test_file_path] = output_file_path
             print('Score for file: {}'.format(file_score))
             total_score += file_score
         print('Total score: {}'.format(total_score))
+    print('Max_for_file: {}'.format(max_for_file))
+    print('Max score: {}'.format(sum(max_for_file.values())))
+    print('Output for max: {}'.format(output_for_max))
 
 
 if __name__ == '__main__':
