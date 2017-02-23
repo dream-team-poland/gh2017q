@@ -17,8 +17,9 @@ def _count_score(requests, endpoints, cache_descriptions):
         min_latency = min([endpoint.cache_latencies[cache_id] for cache_id in cache_ids])
         latency_diff = endpoint.data_center_latency - min_latency
         score += request.count * latency_diff
+        total_requests += request.count
     return (score * 1000) // total_requests
 
 
-def run_count_score(input, output):
+def count_score(input, output):
     return _count_score(input.requests, input.endpoints, output)
