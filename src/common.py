@@ -84,7 +84,7 @@ def validate_output(input, output):
 def output_rows(output):
     yield [len(output)]
     for cache_id, video_ids in output.items():
-        yield [cache_id] + video_ids
+        yield [cache_id] + list(video_ids)
 
 
 def write_output(output, file=sys.stdout):
